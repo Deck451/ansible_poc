@@ -1,18 +1,17 @@
 services:
+
+  control_node:
+    build:
+      context: ./control_node
+
   server_0:
     build:
       context: ./server
-    ports:
-      - "50022:22"
 
   server_1:
     build:
       context: ./server
-    ports:
-      - "50023:22"
 
   server_2:
     build:
       context: ./server
-    ports:
-      - "50024:22"
