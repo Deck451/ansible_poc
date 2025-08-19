@@ -3,15 +3,19 @@ services:
   control_node:
     build:
       context: ./control_node
+    tty: true
 
   server_0:
     build:
       context: ./server
+    tty: true
 
   server_1:
     build:
       context: ./server
+    tty: true
 
   server_2:
     build:
       context: ./server
+    tty: true
