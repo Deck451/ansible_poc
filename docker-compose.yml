@@ -8,7 +8,6 @@ services:
     volumes:
       - ./control_node/ansible.cfg:/etc/ansible/ansible.cfg
 
-
   server_0:
     container_name: server_0
     build:
