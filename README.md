@@ -5,6 +5,7 @@ running under a Docker container using Docker Compose.
 
 ## Quick Start
 
+### start the containers
 ```sh
 git clone https://github.com/deck451/ansible_poc.git
 cd ansible_poc

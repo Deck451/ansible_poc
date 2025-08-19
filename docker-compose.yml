@@ -1,21 +1,25 @@
 services:
 
   control_node:
+    container_name: control_node
     build:
       context: ./control_node
     tty: true
 
   server_0:
+    container_name: server_0
     build:
       context: ./server
     tty: true
 
   server_1:
+    container_name: server_1
     build:
       context: ./server
     tty: true
 
   server_2:
+    container_name: server_2
     build:
       context: ./server
     tty: true
