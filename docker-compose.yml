@@ -7,21 +7,31 @@ services:
     tty: true
     volumes:
       - ./control_node/ansible.cfg:/etc/ansible/ansible.cfg
+      - ./control_node/id_ed25519:/root/.ssh/ansible_key:ro
+      - ./control_node/id_ed25519.pub:/root/.ssh/ansible_key.pub:ro
 
   server_0:
     container_name: server_0
     build:
       context: ./server
     tty: true
+    volumes:
+      - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
+
+
 
   server_1:
     container_name: server_1
     build:
       context: ./server
     tty: true
+    volumes:
+      - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
 
   server_2:
     container_name: server_2
     build:
       context: ./server
     tty: true
+    volumes:
+      - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro

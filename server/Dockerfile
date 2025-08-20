@@ -6,4 +6,7 @@ RUN apt-get update && \
 
 EXPOSE 22
 
+RUN useradd -ms /bin/bash ansible && \
+    mkdir -p /home/ansible/.ssh
+
 CMD ["/usr/sbin/sshd", "-D"]

@@ -5,9 +5,30 @@ running under a Docker container using Docker Compose.
 
 ## Quick Start
 
-### start the containers
+### clone the repository and cd into it
 ```sh
 git clone https://github.com/deck451/ansible_poc.git
-cd ansible_poc
+cd ./ansible_poc
+```
+
+### generate ssh keys for the control node and servers
+```sh
+ssh-keygen -t ed25519 -f ./control_node/ansible_key -N ""
+sudo chmod 644 ./control_node/ansible_key.pub
+sudo chmod 600 ./control_node/ansible_key
+```
+
+### start the containers
+```sh
 docker compose up --build
+```
+
+### docker exec into the control node
+```sh
+docker exec -it control_node /bin/bash
+```
+
+### ssh into any of the servers from the control node
+```sh
+ssh server_0 -l user
 ```
