@@ -12,6 +12,10 @@ cd ./ansible_poc
 ```
 
 ### generate ssh keys (and set permissions for them) for the control node and servers
+The public key will be mounted on the servers as `authorized_keys` file.
+It could also have `644` permissions instead of `600`, but `600` is safest.
+The general idea is that it should not be group-writable, nor world-writable.
+
 ```sh
 ssh-keygen -t ed25519 -f ./control_node/ansible_key -N ""
 sudo chmod 600 ./control_node/ansible_key.pub
@@ -30,5 +34,7 @@ docker exec -it control_node /bin/bash
 
 ### ssh into any of the servers from the control node
 ```sh
-ssh server_0 -l ansible
+ssh ansible@server_0
+ssh ansible@server_1
+ssh ansible@server_2
 ```
