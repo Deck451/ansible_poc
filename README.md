@@ -22,6 +22,12 @@ sudo chmod 600 ./control_node/ansible_key.pub
 sudo chmod 600 ./control_node/ansible_key
 ```
 
+### generate .env file, set the root password for all of the servers
+```sh
+touch ./.env
+echo "ROOT_PASSWORD=your_password_of_choice" > ./.env
+```
+
 ### start the containers
 ```sh
 docker compose up --build
@@ -55,4 +61,9 @@ ansible all -m ping
 Ignoring the `--limit` flag has `ansible` pull facts from all of the hosts
 ```sh
 ansible all -m gather_facts --limit server_1
+```
+
+### test ansible elevated privileges
+```sh
+ansible all -m apt --become
 ```
