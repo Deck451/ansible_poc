@@ -7,7 +7,8 @@ services:
     tty: true
     volumes:
       - ./control_node/ansible.cfg:/etc/ansible/ansible.cfg
-      - ./control_node/ansible_key:/root/.ssh/id_rsa:ro
+      - ./control_node/ansible_key:/home/ansible/.ssh/id_rsa:ro
+      - ./control_node/inventory.yml:/etc/ansible/hosts:ro
 
   server_0:
     container_name: server_0

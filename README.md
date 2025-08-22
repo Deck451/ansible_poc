@@ -27,14 +27,21 @@ sudo chmod 600 ./control_node/ansible_key
 docker compose up --build
 ```
 
-### docker exec into the control node
+### docker exec into the control node, as the `ansible` user
 ```sh
-docker exec -it control_node /bin/bash
+docker exec -it --user ansible control_node /bin/bash
 ```
 
-### ssh into any of the servers from the control node
+### manually `ssh` into any of the servers from the control node
 ```sh
 ssh ansible@server_0
 ssh ansible@server_1
 ssh ansible@server_2
+```
+
+### test ansible `ssh` connection
+The `ssh` key should be the default one, so no need to specify it in the command below.
+Same goes for the inventory file.
+```sh
+ansible all -m ping
 ```
