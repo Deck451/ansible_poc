@@ -39,9 +39,20 @@ ssh ansible@server_1
 ssh ansible@server_2
 ```
 
+### test reading back all of the hosts defined in the inventory file
+```sh
+ansible all --list-hosts
+```
+
 ### test ansible `ssh` connection
 The `ssh` key should be the default one, so no need to specify it in the command below.
 Same goes for the inventory file.
 ```sh
 ansible all -m ping
+```
+
+### test ansible facts gathering
+Ignoring the `--limit` flag has `ansible` pull facts from all of the hosts
+```sh
+ansible all -m gather_facts --limit server_1
 ```
