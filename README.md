@@ -69,3 +69,9 @@ ansible all -m gather_facts --limit server_1
 ansible all -m apt --become --ask-become-pass
 ```
 Make sure you input the password you set in your `.env` file ([see here](#set-up-account-password))
+
+
+### install a package on all servers (vim)
+```sh
+ansible all -m apt -a name=vim --become --ask-become-pass
+```
