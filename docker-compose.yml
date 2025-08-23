@@ -15,7 +15,7 @@ services:
     build:
       context: ./server
       args:
-        ROOT_PASSWORD: ${ROOT_PASSWORD}
+        SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true
     volumes:
       - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
@@ -25,7 +25,7 @@ services:
     build:
       context: ./server
       args:
-        ROOT_PASSWORD: ${ROOT_PASSWORD}
+        SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true
     volumes:
       - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
@@ -35,7 +35,7 @@ services:
     build:
       context: ./server
       args:
-        ROOT_PASSWORD: ${ROOT_PASSWORD}
+        SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true
     volumes:
       - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro

@@ -9,11 +9,12 @@ RUN useradd -ms /bin/bash ansible
 
 RUN mkdir -p /home/ansible/.ssh && \
     chown ansible:ansible /home/ansible/.ssh && \
-    chmod 700 /home/ansible/.ssh
+    chmod 700 /home/ansible/.ssh && \
+    usermod -aG sudo ansible
 
-ARG ROOT_PASSWORD
+ARG SSH_USER_PASSWORD
 
-RUN echo "root:${ROOT_PASSWORD}" | chpasswd
+RUN echo "ansible:${SSH_USER_PASSWORD}" | chpasswd
 
 EXPOSE 22
 
