@@ -36,7 +36,7 @@ docker compose up --build
 
 ### docker exec into the control node, as the `ansible` user
 ```sh
-docker exec -it --user ansible control_node /bin/bash
+docker exec -it --user ansible -w /home/ansible control_node /bin/bash
 ```
 
 ### manually `ssh` into any of the servers from the control node
@@ -70,8 +70,30 @@ ansible all -m apt --become --ask-become-pass
 ```
 Make sure you input the password you set in your `.env` file ([see here](#set-up-account-password))
 
-
 ### install a package on all servers (vim)
 ```sh
 ansible all -m apt -a name=vim --become --ask-become-pass
+```
+
+### configure password vault for automating `sudo` operations
+1. make sure you're inside the `control_node` docker container and inside your user's `home` directory. 
+If not, [see here](#docker-exec-into-the-control-node-as-the-ansible-user)
+
+2. create a vault file to store the `sudo` password
+```sh
+ansible-vault create vault.yml
+```
+Think of a vault password, as `ansible-vault` will ask you for one.
+
+3. add the `sudo` password to the vault file: `ansible_become_pass: "your_password_of_choice"`. It must be the same password as you defined [here](#set-up-account-password)
+
+4. now store the vault password in a file and set the correct permissions for it
+```sh
+echo "your_vault_password_of_choice" > ./.vault_pass
+chmod 600 ./.vault_pass
+```
+
+5. now try the same command as before, just specify the vault file and vault password file:
+```sh
+ansible all -m apt --become --extra-vars "@~/vault.yml" --vault-password-file ~/.vault_pass
 ```
