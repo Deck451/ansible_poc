@@ -97,3 +97,8 @@ chmod 600 ./.vault_pass
 ```sh
 ansible all -m apt --become --extra-vars "@~/vault.yml" --vault-password-file ~/.vault_pass
 ```
+
+6. run playbooks:
+```sh
+ansible-playbook --ask-become-pass ./playbooks/install_apache.yml
+```
