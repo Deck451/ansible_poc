@@ -22,11 +22,18 @@ sudo chmod 600 ./control_node/ansible_key.pub
 sudo chmod 600 ./control_node/ansible_key
 ```
 
-### set up account password
-Generate .env file, then set the user account password for all of the servers
+### set up account and vault passwords
+Generate .env file in your local directory (should be `./ansible_poc`)
 ```sh
 touch ./.env
-echo "SSH_USER_PASSWORD=your_password_of_choice" > ./.env
+```
+then set the user account password for all of the servers by adding a line similar to
+```sh
+SSH_USER_PASSWORD=your_password_of_choice
+```
+next, add another line for the ansible vault passwored:
+```sh
+ANSIBLE_VAULT_PASSWORD=your_vault_password_of_choice
 ```
 
 ### start the containers
@@ -68,37 +75,19 @@ ansible all -m gather_facts --limit server_1
 ```sh
 ansible all -m apt --become --ask-become-pass
 ```
-Make sure you input the password you set in your `.env` file ([see here](#set-up-account-password))
+Make sure you input the password you set in your `.env` file ([see here](#set-up-account-and-vault-passwords))
 
 ### install a package on all servers (vim)
 ```sh
 ansible all -m apt -a name=vim --become --ask-become-pass
 ```
 
-### configure password vault for automating `sudo` operations
-1. make sure you're inside the `control_node` docker container and inside your user's `home` directory. 
-If not, [see here](#docker-exec-into-the-control-node-as-the-ansible-user)
-
-2. create a vault file to store the `sudo` password
-```sh
-ansible-vault create vault.yml
-```
-Think of a vault password, as `ansible-vault` will ask you for one.
-
-3. add the `sudo` password to the vault file: `ansible_become_pass: "your_password_of_choice"`. It must be the same password as you defined [here](#set-up-account-password)
-
-4. now store the vault password in a file and set the correct permissions for it
-```sh
-echo "your_vault_password_of_choice" > ./.vault_pass
-chmod 600 ./.vault_pass
-```
-
-5. now try the same command as before, just specify the vault file and vault password file:
+### try non-interactive commands
 ```sh
 ansible all -m apt --become --extra-vars "@~/vault.yml" --vault-password-file ~/.vault_pass
 ```
 
-6. run playbooks:
+### test running a playbook, interactively (will ask for become password)
 ```sh
 ansible-playbook --ask-become-pass ./playbooks/install_apache.yml
 ```

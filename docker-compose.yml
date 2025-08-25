@@ -4,6 +4,9 @@ services:
     container_name: control_node
     build:
       context: ./control_node
+      args:
+        SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
+        ANSIBLE_VAULT_PASSWORD: ${ANSIBLE_VAULT_PASSWORD}
     tty: true
     volumes:
       - ./control_node/ansible.cfg:/etc/ansible/ansible.cfg
