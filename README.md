@@ -87,7 +87,12 @@ ansible all -m apt -a name=vim --become --ask-become-pass
 ansible all -m apt --become --extra-vars "@~/vault.yml" --vault-password-file ~/.vault_pass
 ```
 
-### test running a playbook, interactively (will ask for become password)
+### run a playbook, interactively (will ask for become password)
 ```sh
-ansible-playbook --ask-become-pass ./playbooks/install_apache.yml
+ansible-playbook --vault-password-file ~/.vault_pass --ask-become-pass ./playbooks/install_apache.yml
+```
+
+### run a playbook without asking for the password
+```sh
+ansible-playbook --vault-password-file ~/.vault_pass ./playbooks/install_apache.yml
 ```

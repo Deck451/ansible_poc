@@ -1,5 +1,7 @@
 - hosts: all
   become: true
+  vars_files:
+    - /home/ansible/vault.yml
   tasks:
   - name: install apache2 package
     apt:
