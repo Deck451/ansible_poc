@@ -18,6 +18,7 @@ services:
     container_name: server_0
     build:
       context: ./server
+      dockerfile: Dockerfile_debian
       args:
         SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true
@@ -28,6 +29,7 @@ services:
     container_name: server_1
     build:
       context: ./server
+      dockerfile: Dockerfile_debian
       args:
         SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true
@@ -38,6 +40,18 @@ services:
     container_name: server_2
     build:
       context: ./server
+      dockerfile: Dockerfile_debian
+      args:
+        SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
+    tty: true
+    volumes:
+      - ./control_node/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
+
+  server_3:
+    container_name: server_3
+    build:
+      context: ./server
+      dockerfile: Dockerfile_fedora
       args:
         SSH_USER_PASSWORD: ${SSH_USER_PASSWORD}
     tty: true

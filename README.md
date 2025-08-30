@@ -51,6 +51,7 @@ docker exec -it --user ansible -w /home/ansible control_node /bin/bash
 ssh ansible@server_0
 ssh ansible@server_1
 ssh ansible@server_2
+ssh ansible@server_3
 ```
 
 ### test reading back all of the hosts defined in the inventory file
