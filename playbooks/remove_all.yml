@@ -3,37 +3,35 @@
   vars_files:
     - /home/ansible/vault.yml
   pre_tasks:
-    - name: install updates (Fedora)
-      dnf:
-        update_cache: yes
-        update_only: yes
-      when: ansible_distribution in ["Fedora", "CentOS"]
-
-    - name: install updates (Debian)
+    - name: update repository index
       apt:
-        upgrade: dist
         update_cache: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: update repository index
+      dnf:
+        update_cache: yes
+      when: ansible_distribution in ["Fedora", "CentOS"]
 
 - hosts: web_servers
   become: true
   vars_files:
     - /home/ansible/vault.yml
   tasks:
-    - name: install apache and php (Debian)
+    - name: remove php and apache (Debian)
       apt:
         name:
-          - apache2
           - libapache2-mod-php
-        state: latest
+          - apache2
+        state: absent
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
-    - name: install apache and php (Fedora)
+    - name: remove php and apache (Fedora)
       dnf:
-        name:
-          - httpd
+        name: 
           - php
-        state: latest
+          - httpd
+        state: absent
       when: ansible_distribution in ["Fedora", "CentOS"]
 
 - hosts: db_servers
@@ -41,24 +39,24 @@
   vars_files:
     - /home/ansible/vault.yml
   tasks:
-    - name: install sqlite (Debian)
+    - name: remove sqlite (Debian)
       apt:
         name: sqlite3
-        state: latest
+        state: absent
       when: ansible_distribution in ["Debian", "Ubuntu"]
     
-    - name: install sqlite (Fedora)
+    - name: remove sqlite (Fedora)
       dnf:
         name: sqlite
-        state: latest
+        state: absent
       when: ansible_distribution in ["Fedora", "CentOS"]
-      
+
 - hosts: file_servers
   become: true
   vars_files:
     - /home/ansible/vault.yml
   tasks:
-    - name: install samba
+    - name: remove samba (Debian)
       package:
         name: samba
-        state: latest
+        state: absent
