@@ -1,6 +1,12 @@
 all:
-  hosts:
-    server_0:
-    server_1:
-    server_2:
-    server_3:
+  children:
+    web_servers:
+      hosts:
+        server_0:
+        server_3:
+    db_servers:
+      hosts:
+        server_1:
+    file_servers:
+      hosts:
+        server_2:
