@@ -40,6 +40,15 @@
         state: latest
       when: ansible_distribution in ["Fedora", "CentOS"]
 
+    - name: copy default html file for website
+      tags: web, apache2, httpd
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+
 - hosts: db_servers
   become: true
   vars_files:
