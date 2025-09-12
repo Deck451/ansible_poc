@@ -90,10 +90,21 @@ ansible all -m apt --become --extra-vars "@~/vault.yml" --vault-password-file ~/
 
 ### run a playbook, interactively (will ask for become password)
 ```sh
-ansible-playbook --vault-password-file ~/.vault_pass --ask-become-pass ./playbooks/install_apache.yml
+ansible-playbook --vault-password-file ~/.vault_pass --ask-become-pass ./playbooks/your_playbook.yml
 ```
 
 ### run a playbook without asking for the password
 ```sh
-ansible-playbook --vault-password-file ~/.vault_pass ./playbooks/install_apache.yml
+ansible-playbook --vault-password-file ~/.vault_pass ./playbooks/your_playbook.yml
 ```
+
+### check available tags in a playbook
+```sh
+ansible-playbook --vault-password-file ~/.vault_pass --list-tags ./playbooks/your_playbook.yml
+```
+
+### run playbook only for certain tag(s)
+```sh
+ansible-playbook --vault-password-file ~/.vault_pass --tags tag1,tag2,tag3 ./playbooks/your_playbook.yml
+``` 
+

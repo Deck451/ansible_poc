@@ -4,12 +4,14 @@
     - /home/ansible/vault.yml
   pre_tasks:
     - name: install updates (Fedora)
+      tags: always
       dnf:
         update_cache: yes
         update_only: yes
       when: ansible_distribution in ["Fedora", "CentOS"]
 
     - name: install updates (Debian)
+      tags: always
       apt:
         upgrade: dist
         update_cache: yes
@@ -21,6 +23,7 @@
     - /home/ansible/vault.yml
   tasks:
     - name: install apache and php (Debian)
+      tags: web, apache2, debian
       apt:
         name:
           - apache2
@@ -29,6 +32,7 @@
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: install apache and php (Fedora)
+      tags: web, httpd, fedora
       dnf:
         name:
           - httpd
@@ -42,12 +46,14 @@
     - /home/ansible/vault.yml
   tasks:
     - name: install sqlite (Debian)
+      tags: db, sqlite, debian
       apt:
         name: sqlite3
         state: latest
       when: ansible_distribution in ["Debian", "Ubuntu"]
     
     - name: install sqlite (Fedora)
+      tags: db, sqlite, fedora
       dnf:
         name: sqlite
         state: latest
@@ -59,6 +65,7 @@
     - /home/ansible/vault.yml
   tasks:
     - name: install samba
+      tags: file, samba
       package:
         name: samba
         state: latest
