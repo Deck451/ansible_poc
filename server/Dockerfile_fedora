@@ -1,23 +1,25 @@
 FROM fedora:latest
 
+ARG SSH_USER_PASSWORD
+
+# install required packages
 RUN dnf update -y && \
     dnf install -y openssh-server && \
     dnf install -y python3 && \
     dnf clean all
 
-RUN useradd -ms /bin/bash ansible
+# add and configure ansible user
+RUN useradd -ms /bin/bash ansible && \
+    usermod -aG wheel ansible && \
+    echo "ansible:${SSH_USER_PASSWORD}" | chpasswd
 
+# configure ssh
 RUN mkdir -p /home/ansible/.ssh && \
     chown ansible:ansible /home/ansible/.ssh && \
     chmod 700 /home/ansible/.ssh && \
-    usermod -aG wheel ansible
+    ssh-keygen -A
 
-RUN ssh-keygen -A
-
-ARG SSH_USER_PASSWORD
-
-RUN echo "ansible:${SSH_USER_PASSWORD}" | chpasswd
-
+# port for ssh and start sshd
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]

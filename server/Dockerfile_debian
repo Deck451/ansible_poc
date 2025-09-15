@@ -1,21 +1,24 @@
 FROM python:3.13-slim
 
+ARG SSH_USER_PASSWORD
+
+# install required packages
 RUN apt-get update && \
     apt-get install -y openssh-server && \
     apt-get install -y sudo && \
     rm -rf /var/lib/apt/lists/*
 
-RUN useradd -ms /bin/bash ansible
-
-RUN mkdir -p /home/ansible/.ssh && \
-    chown ansible:ansible /home/ansible/.ssh && \
-    chmod 700 /home/ansible/.ssh && \
+# add and configure ansible user
+RUN useradd -ms /bin/bash ansible && \
+    echo "ansible:${SSH_USER_PASSWORD}" | chpasswd && \
     usermod -aG sudo ansible
 
-ARG SSH_USER_PASSWORD
+# configure ssh
+RUN mkdir -p /home/ansible/.ssh && \
+    chown ansible:ansible /home/ansible/.ssh && \
+    chmod 700 /home/ansible/.ssh
 
-RUN echo "ansible:${SSH_USER_PASSWORD}" | chpasswd
-
+# port for ssh and start sshd
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
