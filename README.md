@@ -47,11 +47,13 @@ docker exec -it --user ansible -w /home/ansible control_node /bin/bash
 ```
 
 ### manually `ssh` into any of the servers from the control node
+Can also `ssh` into `control_node` from the control node itself
 ```sh
 ssh ansible@server_0
 ssh ansible@server_1
 ssh ansible@server_2
 ssh ansible@server_3
+ssh ansible@control_node
 ```
 
 ### test reading back all of the hosts defined in the inventory file

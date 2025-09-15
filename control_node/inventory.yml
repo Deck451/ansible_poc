@@ -10,3 +10,6 @@ all:
     file_servers:
       hosts:
         server_2:
+    workstations:
+      hosts:
+        control_node:

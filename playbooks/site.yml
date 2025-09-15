@@ -17,6 +17,23 @@
         update_cache: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
+- hosts: workstations
+  become: true
+  vars_files:
+    - /home/ansible/vault.yml
+  tasks:
+    - name: install unzip
+      package:
+        name: unzip
+    - name: install terraform
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/1.13.2/terraform_1.13.2_linux_amd64.zip
+        dest: /usr/local/bin/
+        remote_src: yes
+        mode: 0755
+        owner: root
+        group: root
+
 - hosts: web_servers
   become: true
   vars_files:
