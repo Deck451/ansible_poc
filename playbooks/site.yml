@@ -57,6 +57,34 @@
         state: latest
       when: ansible_distribution in ["Fedora", "CentOS"]
 
+    # managing services is tricky in a docker context
+    # -----------------------------------------------
+    # - name: start and enable apache service (Fedora)
+    #   tags: web, httpd, fedora
+    #   service:
+    #     name: httpd
+    #     state: started
+    #     enabled: true
+    #   when: ansible_distribution in ["Fedora", "CentOS"]
+
+    - name: change email address for apache admin (Fedora)
+      tags: web, httpd, fedora
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^ServerAdmin'
+        line: 'ServerAdmin somebody@somewhere.net'
+      when: ansible_distribution in ["Fedora", "CentOS"]
+      register: httpd_config
+
+    # managing services is tricky in a docker context
+    # -----------------------------------------------
+    # - name: restart apache service (Fedora)
+    #   tags: web, httpd, fedora
+    #   service:
+    #     name: httpd
+    #     state: restarted
+    #   when: httpd_config.changed
+
     - name: copy default html file for website
       tags: web, apache2, httpd
       copy:
