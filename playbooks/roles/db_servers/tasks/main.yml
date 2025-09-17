@@ -1,0 +1,13 @@
+- name: install sqlite (Debian)
+  tags: db, sqlite, debian
+  apt:
+    name: sqlite3
+    state: latest
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+    
+- name: install sqlite (Fedora)
+  tags: db, sqlite, fedora
+  dnf:
+    name: sqlite
+    state: latest
+  when: ansible_distribution in ["Fedora", "CentOS"]
