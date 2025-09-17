@@ -17,6 +17,34 @@
         update_cache: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
+- hosts: all
+  become: true
+  vars:
+    username: "john_doe"
+  vars_files:
+    - /home/ansible/vault.yml
+  tasks:
+    - name: create user
+      tags: always
+      user:
+        name: "{{ username }}"
+        groups: root
+    
+    - name: add ssh key for user
+      tags: always
+      authorized_key:
+        user: "{{ username }}"
+        key: "{{ lookup('file', '/home/ansible/.ssh/authorized_keys') }}"
+
+    - name: add sudoers file for user
+      tags: always
+      copy:
+        src: sudoer_file
+        dest: "/etc/sudoers.d/{{ username }}"
+        owner: root
+        group: root
+        mode: 0440
+
 - hosts: workstations
   become: true
   vars_files:
