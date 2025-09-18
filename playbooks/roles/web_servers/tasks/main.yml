@@ -1,51 +1,40 @@
-- name: install apache and php (Debian)
-  tags: web, apache2, debian
-  apt:
+- name: install apache and php packages
+  tags: apache, httpd, php
+  package:
     name:
-      - apache2
-      - libapache2-mod-php
+      - "{{ apache_package_name }}"
+      - "{{ php_package_name }}"
     state: latest
-  when: ansible_distribution in ["Debian", "Ubuntu"]
-
-- name: install apache and php (Fedora)
-  tags: web, httpd, fedora
-  dnf:
-    name:
-      - httpd
-      - php
-    state: latest
-  when: ansible_distribution in ["Fedora", "CentOS"]
 
 # managing services is tricky in a docker context
 # -----------------------------------------------
-# - name: start and enable apache service (Fedora)
-#   tags: web, httpd, fedora
+# - name: start and enable httpd
+#   tags: apache, httpd
 #   service:
-#     name: httpd
+#     name: "{{ apache_service }}"
 #     state: started
 #     enabled: true
-#   when: ansible_distribution in ["Fedora", "CentOS"]
 
-- name: change email address for apache admin (Fedora)
-  tags: web, httpd, fedora
+- name: change email address for apache admin
+  tags: apache, fedora, httpd
   lineinfile:
     path: /etc/httpd/conf/httpd.conf
     regexp: '^ServerAdmin'
     line: 'ServerAdmin somebody@somewhere.net'
   when: ansible_distribution in ["Fedora", "CentOS"]
-  register: httpd_config
+  notify: install vim
 
 # managing services is tricky in a docker context
 # -----------------------------------------------
-# - name: restart apache service (Fedora)
-#   tags: web, httpd, fedora
+# - name: restart httpd
+#   tags: apache, httpd, fedora
 #   service:
-#     name: httpd
+#     name: "{{ apache_service }}"
 #     state: restarted
-#   when: httpd_config.changed
+#   when: apache_config.changed
 
 - name: copy default html file for website
-  tags: web, apache2, httpd
+  tags: apache, apache2, httpd
   copy:
     src: default_site.html
     dest: /var/www/html/index.html
