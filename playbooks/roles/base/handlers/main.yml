@@ -1,0 +1,6 @@
+# managing services is tricky in a docker context
+# -----------------------------------------------
+# - name: restart_sshd
+#   service:
+#     name: sshd
+#     state: restarted
